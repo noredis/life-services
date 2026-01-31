@@ -8,4 +8,15 @@
 #   bin/console debug:router
 
 controllers:
-    resource: routing.controllers
+    resource:
+        path: ../src/Presentation/Http/Api/Controller/
+        namespace: App\Presentation\Http\Api\Controller
+    type: attribute
+
+kernel:
+    resource: App\Kernel
+    type: attribute
+
+api_login:
+    path: /api/auth/login
+    methods: [POST]
