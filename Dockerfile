@@ -24,15 +24,13 @@ COPY docker/php/conf/php.ini /usr/local/etc/php/php.ini
 COPY docker/php/conf/fpm.conf /usr/local/etc/php-fpm.d/www.conf
 COPY docker/php/conf/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
-COPY composer.json composer.lock ./
-
-RUN composer install \
-    --optimize-autoloader \
-    --no-scripts \
-    --no-interaction \
-    --prefer-dist
+COPY composer.json composer.lock symfony.lock ./
+RUN composer install --no-autoloader --no-scripts
 
 COPY . .
+
+RUN composer dump-autoload --optimize
+RUN composer run-script post-install-cmd || true
 
 RUN groupadd -g 1000 www && \
     useradd -u 1000 -ms /bin/bash -g www www
