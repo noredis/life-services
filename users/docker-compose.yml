@@ -21,7 +21,6 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-
   nginx:
     image: nginx:alpine
     container_name: users-nginx
