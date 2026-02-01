@@ -19,19 +19,18 @@ COPY --from=composer:2.8 /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/app
 
-COPY composer.json composer.lock ./
-
-RUN composer install \
-    --no-dev \
-    --optimize-autoloader \
-    --no-scripts \
-    --no-interaction \
-    --prefer-dist
-
 COPY docker/php/conf/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY docker/php/conf/php.ini /usr/local/etc/php/php.ini
 COPY docker/php/conf/fpm.conf /usr/local/etc/php-fpm.d/www.conf
 COPY docker/php/conf/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+
+COPY composer.json composer.lock ./
+
+RUN composer install \
+    --optimize-autoloader \
+    --no-scripts \
+    --no-interaction \
+    --prefer-dist
 
 COPY . .
 
