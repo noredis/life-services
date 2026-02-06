@@ -66,6 +66,7 @@ class ExceptionListener
         ]);
 
         $data['fields'] = $e->fields;
+
         return new JsonResponse(data: $data, status: JsonResponse::HTTP_UNPROCESSABLE_ENTITY);
     }
 

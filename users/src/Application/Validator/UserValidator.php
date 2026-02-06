@@ -7,10 +7,13 @@ namespace App\Application\Validator;
 use App\Application\Request\UserRequestInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
+use function Symfony\Component\String\u;
+
 class UserValidator implements UserValidatorInterface
 {
-    public function __construct(private ValidatorInterface $validator)
-    {
+    public function __construct(
+        private ValidatorInterface $validator,
+    ) {
     }
 
     public function validate(UserRequestInterface $request): array
@@ -20,7 +23,7 @@ class UserValidator implements UserValidatorInterface
         $violations = $this->validator->validate($request);
         foreach ($violations as $violation) {
             $fields[] = [
-                'field' => $violation->getPropertyPath(),
+                'field' => u($violation->getPropertyPath())->snake()->toString(),
                 'error' => $violation->getMessage(),
             ];
         }

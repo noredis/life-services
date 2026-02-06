@@ -11,7 +11,7 @@ use App\Common\Failure\PasswordResetNotFoundException;
 use App\Common\Failure\PasswordResetTokenIsExpiredException;
 use App\Common\Failure\VerificationTokenIsExpiredException;
 use App\Domain\Message\EmailChangedEvent;
-use App\Domain\Message\EmailVerificationAssingedEvent;
+use App\Domain\Message\EmailVerificationAssignedEvent;
 use App\Domain\Message\EmailVerifiedEvent;
 use App\Domain\Message\PasswordChangedEvent;
 use App\Domain\Message\PasswordResetAssignedEvent;
@@ -217,7 +217,7 @@ class User extends AggregateRoot implements PasswordAuthenticatedUserInterface, 
         $this->emailVerification = $emailVerification;
 
         $this->recordEvent(
-            new EmailVerificationAssingedEvent(
+            new EmailVerificationAssignedEvent(
                 email: $this->email,
                 verificationToken: $emailVerification->getToken(),
             ),

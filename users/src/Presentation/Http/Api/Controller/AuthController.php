@@ -41,6 +41,6 @@ class AuthController extends AbstractController
             'name' => $response->name,
         ]);
 
-        return new JsonResponse(data: $response, status: JsonResponse::HTTP_CREATED);
+        return $this->json($response, JsonResponse::HTTP_CREATED);
     }
 }

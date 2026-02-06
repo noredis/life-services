@@ -26,7 +26,7 @@ class ProfileController extends AbstractController
     #[Route('/whoami', name: 'whoami', methods: ['GET'])]
     public function whoami(UserInterface $user): Response
     {
-        return new JsonResponse(data: $this->userService->whoami($user), status: JsonResponse::HTTP_OK);
+        return $this->json($this->userService->whoami($user), JsonResponse::HTTP_OK);
     }
 
     #[Route('/edit', name: 'edit-profile', methods: ['PATCH'])]
@@ -44,6 +44,6 @@ class ProfileController extends AbstractController
             'name' => $response->name,
         ]);
 
-        return new JsonResponse(data: $response, status: JsonResponse::HTTP_OK);
+        return $this->json($response, JsonResponse::HTTP_OK);
     }
 }

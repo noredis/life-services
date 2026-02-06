@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Application\MessageHandler;
 
-use App\Domain\Message\EmailVerificationAssingedEvent;
+use App\Domain\Message\EmailVerificationAssignedEvent;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
@@ -21,7 +21,7 @@ class SendVerificationEmailHandler
     ) {
     }
 
-    public function __invoke(EmailVerificationAssingedEvent $event): void
+    public function __invoke(EmailVerificationAssignedEvent $event): void
     {
         try {
             $url = $this->appUrl . '/api/account/email/verify/' . $event->verificationToken;

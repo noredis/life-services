@@ -40,7 +40,7 @@ class AccountController extends AbstractController
             'email' => $response->email,
         ]);
 
-        return new JsonResponse(data: $response, status: JsonResponse::HTTP_OK);
+        return $this->json($response, JsonResponse::HTTP_OK);
     }
 
     #[Route('/email/verification/request', name: 'request-email-verification', methods: ['POST'])]
@@ -50,7 +50,7 @@ class AccountController extends AbstractController
 
         $this->logger->info('email verification requested');
 
-        return new JsonResponse(status: JsonResponse::HTTP_NO_CONTENT);
+        return $this->json(null, JsonResponse::HTTP_NO_CONTENT);
     }
 
     #[Route('/email/verify/{token}', name: 'verify-email', methods: ['GET'])]
@@ -62,7 +62,7 @@ class AccountController extends AbstractController
             'email' => $response->email,
         ]);
 
-        return new JsonResponse(data: $response, status: JsonResponse::HTTP_OK);
+        return $this->json($response, JsonResponse::HTTP_OK);
     }
 
     #[Route('/password/change', name: 'change-password', methods: ['POST'])]
@@ -79,7 +79,7 @@ class AccountController extends AbstractController
 
         $this->logger->info('password changed');
 
-        return new JsonResponse(data: $response, status: JsonResponse::HTTP_OK);
+        return $this->json($response, JsonResponse::HTTP_OK);
     }
 
     #[Route('/password/reset/request', name: 'request-password-reset', methods: ['POST'])]
@@ -94,7 +94,7 @@ class AccountController extends AbstractController
 
         $this->logger->info('password reset requested');
 
-        return new JsonResponse(status: JsonResponse::HTTP_NO_CONTENT);
+        return $this->json(null, JsonResponse::HTTP_NO_CONTENT);
     }
 
     #[Route('/password/reset/{token}', name: 'reset-password', methods: ['POST'])]
@@ -111,6 +111,6 @@ class AccountController extends AbstractController
 
         $this->logger->info('password reseted');
 
-        return new JsonResponse(data: $response, status: JsonResponse::HTTP_OK);
+        return $this->json($response, JsonResponse::HTTP_OK);
     }
 }

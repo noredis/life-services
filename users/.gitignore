@@ -1,23 +1,17 @@
+# config
+/.env.dev
+/.env.prod
+/.env.test
 
-###> symfony/framework-bundle ###
-/.env.local
-/.env.local.php
-/.env.*.local
+# secrets, packages
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
 /var/
 /vendor/
-###< symfony/framework-bundle ###
-
-###> squizlabs/php_codesniffer ###
-/.phpcs-cache
-/phpcs.xml
-###< squizlabs/php_codesniffer ###
-
-###> IDE ###
-.vscode
-###< IDE ###
-
-###> lexik/jwt-authentication-bundle ###
 /config/jwt/*.pem
-###< lexik/jwt-authentication-bundle ###
+
+# linter
+/.phpcs-cache
+
+# IDE
+.vscode
