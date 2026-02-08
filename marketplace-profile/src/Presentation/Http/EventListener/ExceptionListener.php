@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Presentation\Http\EventListener;
 
+use App\Domain\Failure\ProfileNotFoundException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
@@ -25,11 +26,21 @@ class ExceptionListener
         $data = ['error' => $message];
 
         $response = match (true) {
+            $exception instanceof ProfileNotFoundException => $this->handleProfileNotFoundException($exception, $data),
             $exception instanceof HttpExceptionInterface => $this->handleHttpException($exception, $data),
             default => $this->handleInternalServerException($exception, $data),
         };
 
         $event->setResponse($response);
+    }
+
+    protected function handleProfileNotFoundException(
+        ProfileNotFoundException $e,
+        array $data,
+    ): JsonResponse {
+        $this->logger->warning($e->getMessage());
+
+        return new JsonResponse(data: $data, status: JsonResponse::HTTP_NOT_FOUND);
     }
 
     protected function handleHttpException(
