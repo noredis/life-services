@@ -1,4 +1,4 @@
-.PHONY: up build stop down down-volumes migrate-identity
+.PHONY: up build stop down down-volumes migrate-identity migrate-marketplace-profile logs-identity logs-marketplace-profile
 
 up:
 	@docker compose up -d
@@ -17,6 +17,9 @@ down-volumes:
 
 migrate-identity:
 	@docker exec -it identity-php-fpm php bin/console doctrine:migrations:migrate
+
+migrate-marketplace-profile:
+	@docker exec -it marketplace-profile-php-fpm php bin/console doctrine:migrations:migrate
 
 logs-identity:
 	@docker exec -it identity-php-fpm tail var/log/dev.log
