@@ -26,6 +26,8 @@ services:
     restart: unless-stopped
     env_file:
       - .env
+    extra_hosts:
+      - "172.17.0.1:host-gateway"
     environment:
       DATABASE_URL: "postgresql://${MARKETPLACE_PROFILE_DB_USER}:${MARKETPLACE_PROFILE_DB_PASSWORD}@postgres:${POSTGRES_PORT}/${MARKETPLACE_PROFILE_DB}?serverVersion=16&charset=utf8"
     depends_on:
