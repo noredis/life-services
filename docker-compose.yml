@@ -1,0 +1,121 @@
+services:
+  identity-app:
+    build:
+      context: users
+      dockerfile: Dockerfile.dev
+    container_name: identity-php-fpm
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: "postgresql://${IDENTITY_DB_USER}:${IDENTITY_DB_PASSWORD}@postgres:${POSTGRES_PORT}/${IDENTITY_DB}?serverVersion=16&charset=utf8"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - ls-identity-network
+      - ls-network
+
+  marketplace-profile-app:
+    build:
+      context: marketplace-profile
+      dockerfile: Dockerfile
+    container_name: marketplace-profile-php-fpm
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: "postgresql://${MARKETPLACE_PROFILE_DB_USER}:${MARKETPLACE_PROFILE_DB_PASSWORD}@postgres:${POSTGRES_PORT}/${MARKETPLACE_PROFILE_DB}?serverVersion=16&charset=utf8"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - ls-marketplace-profile-network
+      - ls-network
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    restart: unless-stopped
+    ports:
+      - "${NGINX_PORT}:80"
+    volumes:
+      - ./users:/var/www/identity
+      - ./marketplace-profile:/var/www/marketplace-profile
+      - ./docker/nginx/conf/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - identity-app
+      - marketplace-profile-app
+    environment:
+      TZ: "Europe/London"
+    networks:
+      - ls-network
+
+  postgres:
+    image: postgres:17-alpine
+    container_name: postgres
+    restart: unless-stopped
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+    volumes:
+      - postgres-data:/var/lib/postgresql/data:rw
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - ls-network
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
+    restart: unless-stopped
+    ports:
+      - "${RABBITMQ_PORT}:5672"
+      - "${RABBITMQ_PANEL_PORT}:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+      start_period: 30s
+    networks:
+      - ls-network
+
+  mailer:
+    image: axllent/mailpit
+    container_name: identity-mailer
+    restart: unless-stopped
+    ports:
+      - "${MAILER_PORT}:1025"
+      - "${MAILER_PANEL_PORT}:8025"
+    environment:
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+      TZ: "Europe/London"
+    networks:
+      - ls-identity-network
+
+networks:
+  ls-identity-network:
+    driver: bridge
+  ls-marketplace-profile-network:
+    driver: bridge
+  ls-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
