@@ -18,5 +18,5 @@ kernel:
     type: attribute
 
 api_login:
-    path: /api/auth/login
+    path: /api/identity/auth/login
     methods: [POST]

@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-#[Route('/api/profile')]
+#[Route('/api/identity/profile')]
 class ProfileController extends AbstractController
 {
     public function __construct(

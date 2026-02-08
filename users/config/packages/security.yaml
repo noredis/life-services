@@ -17,11 +17,11 @@ security:
             security: false
             provider: app_user_provider
         login:
-            pattern: ^/api/auth
+            pattern: ^/api/identity/auth
             stateless: true
             provider: app_user_provider
             json_login:
-                check_path: /api/auth/login
+                check_path: /api/identity/auth/login
                 username_path: email
                 password_path: password
                 success_handler: lexik_jwt_authentication.handler.authentication_success
@@ -35,7 +35,7 @@ security:
             lazy: true
             provider: app_user_provider
             json_login:
-                check_path: /api/auth/login
+                check_path: /api/identity/auth/login
                 username_path: email
                 password_path: password
                 success_handler: lexik_jwt_authentication.handler.authentication_success
@@ -49,11 +49,11 @@ security:
 
     # Note: Only the *first* matching rule is applied
     access_control:
-        - { path: ^/api/auth/login, roles: PUBLIC_ACCESS }
-        - { path: ^/api/auth/register, roles: PUBLIC_ACCESS }
-        - { path: ^/api/account/email/verify, roles: PUBLIC_ACCESS }
-        - { path: ^/api/account/password/reset, roles: PUBLIC_ACCESS }
-        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api/identity/auth/login, roles: PUBLIC_ACCESS }
+        - { path: ^/api/identity/auth/register, roles: PUBLIC_ACCESS }
+        - { path: ^/api/identity/account/email/verify, roles: PUBLIC_ACCESS }
+        - { path: ^/api/identity/account/password/reset, roles: PUBLIC_ACCESS }
+        - { path: ^/api/identity/, roles: IS_AUTHENTICATED_FULLY }
 
 when@test:
     security:
