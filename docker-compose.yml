@@ -7,6 +7,10 @@ services:
     restart: unless-stopped
     env_file:
       - .env
+    extra_hosts:
+      - "172.17.0.1:host-gateway"
+    volumes:
+      - ./users:/var/www/identity
     environment:
       DATABASE_URL: "postgresql://${IDENTITY_DB_USER}:${IDENTITY_DB_PASSWORD}@postgres:${POSTGRES_PORT}/${IDENTITY_DB}?serverVersion=16&charset=utf8"
     depends_on:
@@ -28,6 +32,8 @@ services:
       - .env
     extra_hosts:
       - "172.17.0.1:host-gateway"
+    volumes:
+      - ./marketplace-profile:/var/www/marketplace-profile
     environment:
       DATABASE_URL: "postgresql://${MARKETPLACE_PROFILE_DB_USER}:${MARKETPLACE_PROFILE_DB_PASSWORD}@postgres:${POSTGRES_PORT}/${MARKETPLACE_PROFILE_DB}?serverVersion=16&charset=utf8"
     depends_on:
