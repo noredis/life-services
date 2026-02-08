@@ -11,6 +11,7 @@ class ProfileResponse
         public readonly ?string $name,
         public readonly string $email,
         public readonly bool $isEmailVerified,
+        public readonly bool $isSeller,
     ) {
     }
 }

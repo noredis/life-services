@@ -30,6 +30,9 @@ class Profile extends AggregateRoot
     private bool $isEmailVerified = false;
 
     #[ORM\Column]
+    private bool $isSeller = false;
+
+    #[ORM\Column]
     private ?DateTimeImmutable $createdAt = null;
 
     #[ORM\Column]
@@ -92,6 +95,11 @@ class Profile extends AggregateRoot
     {
         $this->isEmailVerified = $isEmailVerified;
         $this->syncedAt = new DateTimeImmutable();
+    }
+
+    public function isSeller(): bool
+    {
+        return $this->isSeller;
     }
 
     public function getCreatedAt(): DateTimeImmutable

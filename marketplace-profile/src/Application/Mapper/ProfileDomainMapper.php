@@ -16,6 +16,7 @@ class ProfileDomainMapper implements ProfileDomainMapperInterface
             name: $profile->getName(),
             email: $profile->getEmail(),
             isEmailVerified: $profile->isEmailVerified(),
+            isSeller: $profile->isSeller(),
         );
     }
 }
