@@ -15,8 +15,8 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO ls_identity_use
 ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO ls_identity_user;
 
 \c ls_marketplace_profile_db
-GRANT ALL ON SCHEMA public TO ls_marketplace_profile_db;
-GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO ls_marketplace_profile_db;
-GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO ls_marketplace_profile_db;
-ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO ls_marketplace_profile_db;
-ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO ls_marketplace_profile_db;
+GRANT ALL ON SCHEMA public TO ls_marketplace_profile_user;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO ls_marketplace_profile_user;
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO ls_marketplace_profile_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO ls_marketplace_profile_user;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO ls_marketplace_profile_user;
