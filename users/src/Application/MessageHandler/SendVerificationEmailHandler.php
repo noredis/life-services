@@ -24,7 +24,7 @@ class SendVerificationEmailHandler
     public function __invoke(EmailVerificationAssignedEvent $event): void
     {
         try {
-            $url = $this->appUrl . '/api/account/email/verify/' . $event->verificationToken;
+            $url = $this->appUrl . '/api/identity/account/email/verify/' . $event->verificationToken;
 
             $this->mailer->send(
                 (new Email())

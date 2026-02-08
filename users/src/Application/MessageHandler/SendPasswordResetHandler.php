@@ -24,7 +24,7 @@ class SendPasswordResetHandler
     public function __invoke(PasswordResetAssignedEvent $event): void
     {
         try {
-            $url = $this->appUrl . '/api/account/password/reset/' . $event->resetToken;
+            $url = $this->appUrl . '/api/identity/account/password/reset/' . $event->resetToken;
 
             $this->mailer->send(
                 (new Email())
